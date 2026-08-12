@@ -6,6 +6,7 @@ A Python Discord bot that reports **local Ubuntu server statistics** via slash c
 
 | Command | Description |
 |---------|-------------|
+| `/help` | Command list and usage tips |
 | `/stats` | Overview of all enabled collectors |
 | `/cpu` | CPU usage, load average, temperature |
 | `/mem` | RAM and swap usage |

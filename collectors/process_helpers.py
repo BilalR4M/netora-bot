@@ -10,7 +10,20 @@ def format_process_line(proc: psutil.Process, cpu: float, mem_percent: float) ->
         name = proc.name()
     except (psutil.NoSuchProcess, psutil.AccessDenied):
         name = "unknown"
-    return f"`{proc.pid:>6}` {name[:24]:<24} CPU {cpu:5.1f}% MEM {mem_percent:5.1f}%"
+    return f"{proc.pid:>6}  {name[:22]:<22}  {cpu:5.1f}%  {mem_percent:5.1f}%"
+
+
+def format_process_table(
+    rows: list[tuple[psutil.Process, float, float]],
+) -> str:
+    """Render top processes as a monospace code-block table."""
+    header = f"{'PID':>6}  {'NAME':<22}  {'CPU':>6}  {'MEM':>6}"
+    separator = f"{'-' * 6}  {'-' * 22}  {'-' * 6}  {'-' * 6}"
+    if not rows:
+        body = "No process data available."
+    else:
+        body = "\n".join(format_process_line(proc, cpu, mem) for proc, cpu, mem in rows)
+    return f"```\n{header}\n{separator}\n{body}\n```"
 
 
 def top_processes(

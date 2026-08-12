@@ -3,7 +3,7 @@
 import psutil
 
 from collectors.base import Collector, register
-from collectors.process_helpers import format_process_line, top_processes
+from collectors.process_helpers import format_process_table, top_processes
 from utils.formatting import human_bytes, progress_bar
 
 
@@ -41,18 +41,15 @@ class ProcessCollector(Collector):
         top_cpu = top_processes("cpu", limit=5)
         top_mem = top_processes("mem", limit=5)
 
-        cpu_lines = [format_process_line(p, c, m) for p, c, m in top_cpu]
-        mem_lines = [format_process_line(p, c, m) for p, c, m in top_mem]
-
         process_fields: list[dict] = [
             {
                 "name": "Top CPU",
-                "value": "\n".join(cpu_lines) if cpu_lines else "No data",
+                "value": format_process_table(top_cpu),
                 "inline": False,
             },
             {
                 "name": "Top Memory",
-                "value": "\n".join(mem_lines) if mem_lines else "No data",
+                "value": format_process_table(top_mem),
                 "inline": False,
             },
         ]
