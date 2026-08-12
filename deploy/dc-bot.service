@@ -1,0 +1,23 @@
+[Unit]
+Description=Discord Server Stats Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dcbot
+Group=dcbot
+WorkingDirectory=/opt/dc-bot
+EnvironmentFile=/etc/dc-bot.env
+ExecStart=/opt/dc-bot/venv/bin/python /opt/dc-bot/bot.py
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/dc-bot
+
+[Install]
+WantedBy=multi-user.target
